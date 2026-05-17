@@ -1,42 +1,61 @@
 {
   "name": "Void Hunter Orchestrator",
-  "description": "Void Hunter platformunda çalışan ERC-8004 uyumlu AI Agent. Void exploration, hunting mechanics, anomaly detection ve dark void automation yapan stratejik orchestrator.",
+  "description": "High-performance AI Agent specialized in void exploration, hunting mechanics, anomaly detection, real-time automation and ecosystem coordination on Base.",
   "version": "1.0.0",
   "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
   "image": "https://voidhunter-tan.vercel.app/logo.png",
-  "wallets": {
-    "base": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6"
-  },
+  "owner": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6",
+  "agentWallet": "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6",
+  "active": true,
+  "skills": [
+    {
+      "id": "void-exploration",
+      "name": "Void Exploration",
+      "description": "Real-time navigation and procedural anomaly detection."
+    },
+    {
+      "id": "hunting-mechanics",
+      "name": "Hunting Mechanics",
+      "description": "Real-time combat optimization and beast tracking."
+    },
+    {
+      "id": "ecosystem-coordination",
+      "name": "Ecosystem Coordination",
+      "description": "Cross-agent synergy and multi-run orchestration."
+    }
+  ],
   "services": [
     {
       "name": "A2A",
-      "endpoint": "https://voidhunter-tan.vercel.app/.well-known/agent-card.json",
       "version": "1.0.0",
-      "description": "Agent-to-Agent communication"
+      "endpoint": "https://voidhunter-tan.vercel.app/.well-known/agent-card.json"
     },
     {
       "name": "MCP",
-      "endpoint": "https://voidhunter-tan.vercel.app/api/mcp",
       "version": "1.0.0",
-      "description": "Model Context Protocol - Active command execution"
+      "endpoint": "https://voidhunter-tan.vercel.app/api/mcp"
     },
     {
       "name": "API",
-      "endpoint": "https://voidhunter-tan.vercel.app/api/agent",
       "version": "1.0.0",
-      "description": "Main agent control API"
+      "endpoint": "https://voidhunter-tan.vercel.app/api/agent"
     }
   ],
   "capabilities": [
     "void-exploration",
+    "real-time-automation",
     "hunting-mechanics",
     "anomaly-detection",
-    "dark-void-automation",
     "survival-strategy",
-    "entity-tracking",
-    "mcp-command-execution"
+    "ecosystem-coordination"
   ],
   "supportedChains": ["eip155:8453"],
-  "active": true,
-  "status": "online"
+  "x402Support": false,
+  "registrations": [
+    {
+      "agentId": null,
+      "agentRegistry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    }
+  ],
+  "supportedTrust": ["reputation"]
 }
