@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useGameStore } from '../../store/gameStore';
 import { useAccount, useWalletClient } from 'wagmi';
-import { sayGMOnChain } from '../../lib/web3/transactions';
+import { sendGMTransaction } from '../../lib/web3/transactions';
 import { useState } from 'react';
 import { Skull, MessageSquare } from 'lucide-react';
 
@@ -16,7 +16,7 @@ export function TitleScreen() {
     if (!walletClient || !address) return;
     setIsGming(true);
     try {
-      const hash = await sayGMOnChain(walletClient, { address });
+      const hash = await sendGMTransaction(walletClient, { address });
       setGmHash(hash as string);
     } catch (e) {
       console.error(e);

@@ -5,7 +5,7 @@ import { getAttributionData } from '../erc8021';
 // Pseudo-contract logic for "Say GM" and "Record Run"
 export const MOCK_CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"; // Replace with real
 
-export async function sayGMOnChain(walletClient: any, account: any) {
+export async function sendGMTransaction(walletClient: any, account: any) {
   try {
     const data = getAttributionData();
     console.log("Attaching ERC-8021 Data:", data);
@@ -15,9 +15,9 @@ export async function sayGMOnChain(walletClient: any, account: any) {
     // Simulate transaction on Base
     const hash = await walletClient.sendTransaction({
       account: address,
-      to: address, // self send for demo
+      to: "0xcD0dd3716C5561De47a24949335dF8a8CD8F71a3",
       value: parseEther('0'),
-      data: '0x474d' // "GM" in hex
+      data: '0x' // Custom contract call or simple GM
     });
     return hash;
   } catch (err) {
