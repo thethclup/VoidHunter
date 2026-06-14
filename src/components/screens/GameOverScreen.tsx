@@ -3,7 +3,7 @@ import { useGameStore } from '../../store/gameStore';
 import { useAccount } from 'wagmi';
 import { useOnchainTx } from '../../hooks/useOnchainTx';
 import { Skull } from 'lucide-react';
-import { encodeFunctionData, parseAbi } from 'viem';
+import { toHex } from 'viem';
 
 export function GameOverScreen() {
   const { setScreen, currentDepth } = useGameStore();
@@ -13,23 +13,9 @@ export function GameOverScreen() {
   const handleRecordRun = async () => {
     if (!address) return;
     
-    // Mock Leaderboard Contract Address
-    const leaderboardContract = "0xLeaderboardContract000000000000000000000";
-    
-    // Mock ABI for saving score
-    const abi = parseAbi([
-      'function recordScore(uint256 depth) external'
-    ]);
-
-    const calldata = encodeFunctionData({
-      abi,
-      functionName: 'recordScore',
-      args: [BigInt(currentDepth)]
-    });
-
     executeTx({
-      to: leaderboardContract,
-      data: calldata
+      to: address,
+      data: toHex(`Void Hunter Depth: ${currentDepth}m`)
     });
   };
 
