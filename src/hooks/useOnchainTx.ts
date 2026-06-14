@@ -9,7 +9,7 @@ export function useOnchainTx() {
 
   // EIP-5792 Batch calls support
   const { 
-    sendCalls, 
+    sendCallsAsync, 
     isPending: isCallsPending,
   } = useSendCalls({
     mutation: {
@@ -19,7 +19,7 @@ export function useOnchainTx() {
 
   // Fallback for EOA wallets without EIP-5792 support
   const { 
-    sendTransaction, 
+    sendTransactionAsync, 
     isPending: isTxPending,
   } = useSendTransaction({
     mutation: {
@@ -42,7 +42,7 @@ export function useOnchainTx() {
 
     try {
       // Try EIP-5792 first
-      sendCalls({
+      await sendCallsAsync({
         calls: [
           {
             to,
@@ -60,13 +60,13 @@ export function useOnchainTx() {
     } catch (err) {
       console.warn("EIP-5792 sendCalls failed, falling back to traditional sendTransaction...", err);
       // Fallback without manual concat as requested
-      sendTransaction({
+      await sendTransactionAsync({
         to,
         value: safeValue,
         data: safeData,
       });
     }
-  }, [sendCalls, sendTransaction]);
+  }, [sendCallsAsync, sendTransactionAsync]);
 
   return {
     executeTx,
