@@ -11,21 +11,13 @@ export function useOnchainTx() {
   const { 
     sendCallsAsync, 
     isPending: isCallsPending,
-  } = useSendCalls({
-    mutation: {
-      onSuccess: (id) => setCallId(id),
-    }
-  });
+  } = useSendCalls();
 
   // Fallback for EOA wallets without EIP-5792 support
   const { 
     sendTransactionAsync, 
     isPending: isTxPending,
-  } = useSendTransaction({
-    mutation: {
-      onSuccess: (hash) => setTxHash(hash),
-    }
-  });
+  } = useSendTransaction();
 
   const { isLoading: isTxConfirming, isSuccess: isTxConfirmed } = useWaitForTransactionReceipt({
     hash: txHash || undefined,
@@ -42,7 +34,7 @@ export function useOnchainTx() {
 
     try {
       // Try EIP-5792 first
-      await sendCallsAsync({
+      const id = await sendCallsAsync({
         calls: [
           {
             to,
@@ -57,14 +49,26 @@ export function useOnchainTx() {
           }
         }
       });
-    } catch (err) {
+      console.log("EIP-5792 call submitted:", id);
+      setCallId(id);
+    } catch (err: any) {
+      if (err?.message?.toLowerCase().includes('reject') || err?.code === 4001) {
+        console.warn("User rejected the transaction.");
+        return;
+      }
       console.warn("EIP-5792 sendCalls failed, falling back to traditional sendTransaction...", err);
-      // Fallback without manual concat as requested
-      await sendTransactionAsync({
-        to,
-        value: safeValue,
-        data: safeData,
-      });
+      try {
+        // Fallback without manual concat as requested
+        const hash = await sendTransactionAsync({
+          to,
+          value: safeValue,
+          data: safeData,
+        });
+        console.log("Fallback transaction submitted:", hash);
+        setTxHash(hash);
+      } catch (fallbackErr) {
+        console.error("Fallback sendTransaction failed:", fallbackErr);
+      }
     }
   }, [sendCallsAsync, sendTransactionAsync]);
 
