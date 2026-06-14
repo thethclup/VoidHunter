@@ -1,28 +1,21 @@
 import { motion } from 'framer-motion';
 import { useGameStore } from '../../store/gameStore';
-import { useAccount, useWalletClient } from 'wagmi';
-import { sendGMTransaction } from '../../lib/web3/transactions';
-import { useState } from 'react';
+import { useAccount } from 'wagmi';
+import { useOnchainTx } from '../../hooks/useOnchainTx';
 import { Skull, MessageSquare } from 'lucide-react';
 
 export function TitleScreen() {
   const { setScreen } = useGameStore();
   const { address } = useAccount();
-  const { data: walletClient } = useWalletClient();
-  const [isGming, setIsGming] = useState(false);
-  const [gmHash, setGmHash] = useState<string | null>(null);
+  
+  const { executeTx, isPending, txHash, callId } = useOnchainTx();
 
   const handleGM = async () => {
-    if (!walletClient || !address) return;
-    setIsGming(true);
-    try {
-      const hash = await sendGMTransaction(walletClient, { address });
-      setGmHash(hash as string);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setIsGming(false);
-    }
+    if (!address) return;
+    executeTx({
+      to: "0xcD0dd3716C5561De47a24949335dF8a8CD8F71a3",
+      data: '0x'
+    });
   };
 
   return (
@@ -61,17 +54,17 @@ export function TitleScreen() {
           {address && (
             <button
               onClick={handleGM}
-              disabled={isGming}
+              disabled={isPending}
               className="px-8 py-3 glass-panel text-white rounded-xl uppercase tracking-widest font-bold hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               <MessageSquare className="w-4 h-4" />
-              {isGming ? "Transmitting..." : "Say GM (On-Chain)"}
+              {isPending ? "Transmitting..." : "Say GM (On-Chain)"}
             </button>
           )}
 
-          {gmHash && (
+          {(txHash || callId) && (
              <div className="text-xs text-blue-400/80 text-center break-all font-mono">
-               Tx: {gmHash}
+               Tx/Call Confirmed: {txHash || callId}
              </div>
           )}
         </div>

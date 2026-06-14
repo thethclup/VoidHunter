@@ -13,7 +13,7 @@
 - **ERC-8021 Compatible**: Real-time verifiable transaction attribution embedding builder codes seamlessly into payloads.
 
 ### 2. Trustless Agents (ERC-8004/MCP)
-- Fully transparent and compliant agent integration via standard `agent-card.json`.
+- **Base MCP Connection**: Allows AI agents handling the workspace (e.g. Cursor, Claude Code) to natively operate using Base Account wallets via `.cursor/mcp.json` (`https://mcp.base.org`).
 - **Model Context Protocol (MCP)**: Our active server handles high-throughput commands with standard API routing.
 - Real-time synergy built for Next Generation Multi-Track management and ecosystem coordination.
 

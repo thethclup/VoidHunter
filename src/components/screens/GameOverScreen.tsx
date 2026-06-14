@@ -1,29 +1,21 @@
 import { motion } from 'framer-motion';
 import { useGameStore } from '../../store/gameStore';
-import { useAccount, useWalletClient } from 'wagmi';
-import { recordRunOnChain } from '../../lib/web3/transactions';
-import { useState } from 'react';
+import { useAccount } from 'wagmi';
+import { useOnchainTx } from '../../hooks/useOnchainTx';
 import { Skull } from 'lucide-react';
+import { encodeFunctionData, parseAbi } from 'viem';
 
 export function GameOverScreen() {
   const { setScreen, currentDepth } = useGameStore();
   const { address } = useAccount();
-  const { data: walletClient } = useWalletClient();
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordHash, setRecordHash] = useState<string | null>(null);
+  const { executeTx, isPending, txHash, callId } = useOnchainTx();
 
   const handleRecordRun = async () => {
-    if (!walletClient || !address) return;
-    setIsRecording(true);
-    try {
-      // Pass the depth to the mock on-chain function
-      const hash = await recordRunOnChain(walletClient, { address }, currentDepth, 0);
-      setRecordHash(hash as string);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setIsRecording(false);
-    }
+    if (!address) return;
+    executeTx({
+      to: address,
+      data: '0x' // Custom data representation for runs, normally encoded with ABI
+    });
   };
 
   return (
@@ -42,19 +34,19 @@ export function GameOverScreen() {
         <p className="text-[10px] text-gray-500 uppercase tracking-widest mb-12">Depth Reached: <span className="stat-value text-white text-lg">{currentDepth}m</span></p>
 
         <div className="w-full space-y-4">
-          {address && !recordHash && (
+          {address && !(txHash || callId) && (
              <button
                onClick={handleRecordRun}
-               disabled={isRecording}
+               disabled={isPending}
                className="w-full py-4 bg-red-950/40 border border-red-500/50 text-red-200 rounded-lg text-xs uppercase tracking-widest font-bold hover:bg-red-900/60 transition-colors disabled:opacity-50"
              >
-               {isRecording ? 'Transmitting to Chain...' : 'Record run on-chain'}
+               {isPending ? 'Transmitting to Chain...' : 'Record run on-chain'}
              </button>
           )}
 
-          {recordHash && (
+          {(txHash || callId) && (
             <div className="w-full p-4 bg-green-950/40 border border-green-500/50 text-green-200 rounded-lg text-center text-[10px] font-mono break-all uppercase">
-              Run Immortalized: {recordHash}
+              Run Immortalized: {txHash || callId}
             </div>
           )}
 

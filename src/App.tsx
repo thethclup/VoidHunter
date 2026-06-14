@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Web3Provider } from './lib/web3/Web3Provider';
 import { ConnectWallet } from './components/web3/ConnectWallet';
 import { useGameStore } from './store/gameStore';
@@ -8,26 +7,20 @@ import { GameScreen } from './components/screens/GameScreen';
 import { GameOverScreen } from './components/screens/GameOverScreen';
 import { LeaderboardScreen } from './components/screens/LeaderboardScreen';
 import { Sun } from 'lucide-react';
-import { useAccount, useWalletClient } from 'wagmi';
-import { sendGMTransaction } from './lib/web3/transactions';
+import { useAccount } from 'wagmi';
+import { useOnchainTx } from './hooks/useOnchainTx';
 
 function GameCoordinator() {
   const { screen } = useGameStore();
   const { address, isConnected } = useAccount();
-  const { data: walletClient } = useWalletClient();
-  const [isSending, setIsSending] = useState(false);
+  const { executeTx, isPending } = useOnchainTx();
 
   const handleSayGM = async () => {
-    if (!walletClient || !address) return;
-    try {
-      setIsSending(true);
-      const hash = await sendGMTransaction(walletClient, address);
-      console.log('GM Transaction sent:', hash);
-    } catch (err) {
-      console.error('Failed to send GM:', err);
-    } finally {
-      setIsSending(false);
-    }
+    if (!address) return;
+    executeTx({
+      to: "0xcD0dd3716C5561De47a24949335dF8a8CD8F71a3",
+      data: '0x'
+    });
   };
 
   return (
@@ -41,11 +34,11 @@ function GameCoordinator() {
         {isConnected && (
             <button
               onClick={handleSayGM}
-              disabled={isSending}
+              disabled={isPending}
               className="px-3 py-2 rounded-lg bg-[#E8A020]/20 hover:bg-[#E8A020]/30 border border-[#E8A020]/40 text-[#E8A020] transition-colors flex items-center gap-2 font-['Cinzel'] text-xs font-bold whitespace-nowrap"
             >
-              <Sun className={`w-4 h-4 ${isSending ? 'animate-spin' : ''}`} />
-              {isSending ? 'Sending...' : 'Say GM'}
+              <Sun className={`w-4 h-4 ${isPending ? 'animate-spin' : ''}`} />
+              {isPending ? 'Sending...' : 'Say GM'}
             </button>
         )}
         <ConnectWallet />
