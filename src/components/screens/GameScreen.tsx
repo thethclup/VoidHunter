@@ -64,6 +64,7 @@ export function GameScreen() {
     let depthTimer = 0;
     let spawnTimer = 0;
     let playerHealthInternal = health;
+    let lastHealthState = health;
 
     const spawnEnemy = () => {
       // Spawn just offscreen
@@ -186,9 +187,16 @@ export function GameScreen() {
       }
 
       if (playerHealthInternal <= 0) {
-        gameOver();
+        if (lastHealthState > 0) {
+          lastHealthState = 0;
+          setHealth(0);
+          gameOver();
+        }
       } else {
-        setHealth(playerHealthInternal);
+        if (Math.abs(lastHealthState - playerHealthInternal) >= 1) {
+          lastHealthState = playerHealthInternal;
+          setHealth(playerHealthInternal);
+        }
       }
 
       // Move player strictly logic (camera handles view)

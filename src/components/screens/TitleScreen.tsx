@@ -58,7 +58,7 @@ export function TitleScreen() {
               className="px-8 py-3 glass-panel text-white rounded-xl uppercase tracking-widest font-bold hover:bg-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               <MessageSquare className="w-4 h-4" />
-              {isPending ? "Transmitting..." : "Say GM (On-Chain)"}
+              {isPending ? "Transmitting..." : "Say GM (onchain)"}
             </button>
           )}
 

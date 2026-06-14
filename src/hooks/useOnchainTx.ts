@@ -1,9 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useSendTransaction, useWaitForTransactionReceipt, useSendCalls } from 'wagmi';
-import { concat, parseEther, Address, Hex } from 'viem';
-
-// Encoded suffix for ERC-8021 builder code attribution
-export const BUILDER_SUFFIX = '0x07626173656170700080218021802180218021802180218021' as Hex;
+import { Address, Hex } from 'viem';
+import { DATA_SUFFIX } from '../lib/onchain/OnchainProvider';
 
 export function useOnchainTx() {
   const [txHash, setTxHash] = useState<Hex | null>(null);
@@ -54,19 +52,18 @@ export function useOnchainTx() {
         ],
         capabilities: {
           dataSuffix: {
-            value: BUILDER_SUFFIX,
+            value: DATA_SUFFIX,
             optional: true,
           }
         }
       });
     } catch (err) {
-      // Fallback
       console.warn("EIP-5792 sendCalls failed, falling back to traditional sendTransaction...", err);
-      const attributedData = safeData === '0x' ? BUILDER_SUFFIX : concat([safeData, BUILDER_SUFFIX]);
+      // Fallback without manual concat as requested
       sendTransaction({
         to,
         value: safeValue,
-        data: attributedData,
+        data: safeData,
       });
     }
   }, [sendCalls, sendTransaction]);
@@ -74,7 +71,7 @@ export function useOnchainTx() {
   return {
     executeTx,
     isPending,
-    isConfirmed: callId ? true /* We assume calls are trackable if ID returned, otherwise tx confirmation */ : isTxConfirmed,
+    isConfirmed: callId ? true : isTxConfirmed,
     txHash,
     callId,
   };

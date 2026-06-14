@@ -1,5 +1,5 @@
-import { Web3Provider } from './lib/web3/Web3Provider';
-import { ConnectWallet } from './components/web3/ConnectWallet';
+import { OnchainProvider } from './lib/onchain/OnchainProvider';
+import { ConnectWallet } from './components/onchain/ConnectWallet';
 import { useGameStore } from './store/gameStore';
 import { TitleScreen } from './components/screens/TitleScreen';
 import { SanctumScreen } from './components/screens/SanctumScreen';
@@ -58,9 +58,9 @@ function GameCoordinator() {
 
 export default function App() {
   return (
-    <Web3Provider>
+    <OnchainProvider>
       <GameCoordinator />
-    </Web3Provider>
+    </OnchainProvider>
   );
 }
 

@@ -3,13 +3,13 @@
 **A Dark Atmospheric Cyber-Gothic Roguelike on Base Mainnet**
 
 ## Overview
-**Void Hunter Orchestrator** is an intense, high-performance Web3 AI Agent platform. Navigating ever-changing dark dimensions, the Orchestrator hunts dangerous Void Beasts and gathers powerful Void Essence to expand its arsenal. Equipped with sophisticated void exploration, hunting mechanics, and real-time anomaly detection, this platform fuses competitive mechanics, real-time automation, and ecosystem coordination on Base.
+**Void Hunter Orchestrator** is an intense, high-performance onchain AI Agent platform. Navigating ever-changing dark dimensions, the Orchestrator hunts dangerous Void Beasts and gathers powerful Void Essence to expand its arsenal. Equipped with sophisticated void exploration, hunting mechanics, and real-time anomaly detection, this platform fuses competitive mechanics, real-time automation, and ecosystem coordination on Base.
 
 ## Key Capabilities & Features
 
-### 1. Advanced Web3 Integration
+### 1. Advanced Onchain Integration
 - **Base Mainnet Operations**: Powered by the Base network infrastructure.
-- **On-chain Run Preservation**: Engrave legendary operations natively.
+- **Onchain Run Preservation**: Engrave legendary operations natively.
 - **ERC-8021 Compatible**: Real-time verifiable transaction attribution embedding builder codes seamlessly into payloads.
 
 ### 2. Trustless Agents (ERC-8004/MCP)

@@ -12,9 +12,24 @@ export function GameOverScreen() {
 
   const handleRecordRun = async () => {
     if (!address) return;
+    
+    // Mock Leaderboard Contract Address
+    const leaderboardContract = "0xLeaderboardContract000000000000000000000";
+    
+    // Mock ABI for saving score
+    const abi = parseAbi([
+      'function recordScore(uint256 depth) external'
+    ]);
+
+    const calldata = encodeFunctionData({
+      abi,
+      functionName: 'recordScore',
+      args: [BigInt(currentDepth)]
+    });
+
     executeTx({
-      to: address,
-      data: '0x' // Custom data representation for runs, normally encoded with ABI
+      to: leaderboardContract,
+      data: calldata
     });
   };
 
@@ -40,7 +55,7 @@ export function GameOverScreen() {
                disabled={isPending}
                className="w-full py-4 bg-red-950/40 border border-red-500/50 text-red-200 rounded-lg text-xs uppercase tracking-widest font-bold hover:bg-red-900/60 transition-colors disabled:opacity-50"
              >
-               {isPending ? 'Transmitting to Chain...' : 'Record run on-chain'}
+               {isPending ? 'Transmitting to Chain...' : 'Record run onchain'}
              </button>
           )}
 
