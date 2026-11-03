@@ -5,7 +5,14 @@ const mcpData = {
   version: "1.0.0",
   name: "Void Hunter Orchestrator",
   status: "active",
-  description: "Active MCP server for Void Hunter Orchestrator Agent",
+  description: "Active MCP server for Void Hunter Orchestrator Agent (Base Denim 200ms)",
+  network: {
+    upgrade: "Denim",
+    cadence: "200ms",
+    flashblocksMigrated: true,
+    pendingTagDeprecated: true,
+    supportedChains: [8453, 84532, 84538453]
+  },
   tools: [
     {
       name: "get_race_status",
@@ -31,15 +38,21 @@ const mcpData = {
       name: "get_track_info",
       description: "Retrieves metadata and hazards for a given track.",
       inputSchema: { type: "object", properties: { trackId: { type: "string" } }, required: ["trackId"] }
+    },
+    {
+      name: "check_denim_migration",
+      description: "Verifies that the dApp is completely migrated to Base Denim 200ms native blocks without Flashblocks or pending tags.",
+      inputSchema: { type: "object", properties: {} }
     }
   ],
   prompts: [
     { name: "hunt_beast", description: "Request a hunting strategy." }
   ],
   resources: [
-    { uri: "void://dimension/current", name: "Current Dimension Data", description: "Environmental data for the current void depth." }
+    { uri: "void://dimension/current", name: "Current Dimension Data", description: "Environmental data for the current void depth." },
+    { uri: "base://upgrade/denim", name: "Base Denim 200ms Spec", description: "Canonical 200ms block production specification." }
   ],
-  capabilities: ["void-exploration", "hunting-mechanics", "anomaly-detection", "mcp-command-execution"]
+  capabilities: ["void-exploration", "hunting-mechanics", "anomaly-detection", "mcp-command-execution", "base-denim-200ms", "canonical-blocks-only"]
 };
 
 export default function handler(req: VercelRequest, res: VercelResponse) {

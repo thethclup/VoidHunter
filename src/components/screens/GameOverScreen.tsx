@@ -8,7 +8,7 @@ import { toHex } from 'viem';
 export function GameOverScreen() {
   const { setScreen, currentDepth } = useGameStore();
   const { address } = useAccount();
-  const { executeTx, isPending, txHash, callId } = useOnchainTx();
+  const { executeTx, isPending, txHash, callId, confirmationDurationMs } = useOnchainTx();
 
   const handleRecordRun = async () => {
     if (!address) return;
@@ -41,13 +41,14 @@ export function GameOverScreen() {
                disabled={isPending}
                className="w-full py-4 bg-red-950/40 border border-red-500/50 text-red-200 rounded-lg text-xs uppercase tracking-widest font-bold hover:bg-red-900/60 transition-colors disabled:opacity-50"
              >
-               {isPending ? 'Transmitting to Chain...' : 'Record run onchain'}
+               {isPending ? 'Transmitting to 200ms Native Block...' : 'Record run onchain'}
              </button>
           )}
 
           {(txHash || callId) && (
-            <div className="w-full p-4 bg-green-950/40 border border-green-500/50 text-green-200 rounded-lg text-center text-[10px] font-mono break-all uppercase">
-              Run Immortalized: {txHash || callId}
+            <div className="w-full p-4 bg-emerald-950/40 border border-emerald-500/50 text-emerald-200 rounded-lg text-center text-[10px] font-mono break-all uppercase space-y-1">
+              <div className="font-bold text-emerald-300">⚡ Base Denim 200ms Block Confirmed {confirmationDurationMs ? `(~${confirmationDurationMs}ms)` : ''}</div>
+              <div className="text-gray-400 text-[9px] truncate">Ref: {txHash || callId}</div>
             </div>
           )}
 

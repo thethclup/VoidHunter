@@ -18,14 +18,25 @@ async function startServer() {
     version: "1.0.0",
     name: "Void Hunter MCP Endpoint",
     status: "active",
-    description: "Active MCP server for Void Hunter Orchestrator Agent",
+    description: "Active MCP server for Void Hunter Orchestrator Agent (Base Denim 200ms Ready)",
+    network: {
+      upgrade: "Denim",
+      cadence: "200ms",
+      flashblocksMigrated: true,
+      pendingTagDeprecated: true,
+      supportedChains: [8453, 84532, 84538453]
+    },
     tools: [
       { name: "scan_void", description: "Scans the void dimension for anomalies.", inputSchema: { type: "object", properties: { targetDepth: { type: "number" } }, required: ["targetDepth"] } },
-      { name: "extract_essence", description: "Extracts volatile essence.", inputSchema: { type: "object", properties: { targetId: { type: "string" } }, required: ["targetId"] } }
+      { name: "extract_essence", description: "Extracts volatile essence.", inputSchema: { type: "object", properties: { targetId: { type: "string" } }, required: ["targetId"] } },
+      { name: "check_denim_migration", description: "Audits RPC integration for Base Denim compliance (verifies 200ms canonical blocks and zero pending tags).", inputSchema: { type: "object", properties: {} } }
     ],
     prompts: [ { name: "hunt_beast", description: "Request a hunting strategy." } ],
-    resources: [ { uri: "void://dimension/current", name: "Current Dimension Data", description: "Environmental data for the current void depth." } ],
-    capabilities: ["void-exploration", "hunting-mechanics", "anomaly-detection"]
+    resources: [ 
+      { uri: "void://dimension/current", name: "Current Dimension Data", description: "Environmental data for the current void depth." },
+      { uri: "base://upgrade/denim", name: "Denim 200ms Network Spec", description: "Canonical 200ms block production specification without Flashblocks." }
+    ],
+    capabilities: ["void-exploration", "hunting-mechanics", "anomaly-detection", "base-denim-200ms", "canonical-blocks-only"]
   };
 
   // 1. Agent Status API Endpoint
@@ -35,7 +46,11 @@ async function startServer() {
       status: "active",
       wallet: "0xe157F1F5e12adB38Ba013683E9Ce24efe21e5bA6",
       platform: "Void Hunter",
-      version: "1.0.0"
+      version: "1.0.0",
+      upgrade: "Denim",
+      cadence: "200ms",
+      flashblocks: "deprecated",
+      canonicalState: true
     });
   });
 

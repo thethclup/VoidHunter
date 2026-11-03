@@ -8,7 +8,7 @@ export function TitleScreen() {
   const { setScreen } = useGameStore();
   const { address } = useAccount();
   
-  const { executeTx, isPending, txHash, callId } = useOnchainTx();
+  const { executeTx, isPending, txHash, callId, confirmationDurationMs } = useOnchainTx();
 
   const handleGM = async () => {
     if (!address) return;
@@ -63,8 +63,13 @@ export function TitleScreen() {
           )}
 
           {(txHash || callId) && (
-             <div className="text-xs text-blue-400/80 text-center break-all font-mono">
-               Tx/Call Confirmed: {txHash || callId}
+             <div className="p-3 rounded-lg bg-cyan-950/40 border border-cyan-500/40 text-xs text-cyan-300 text-center font-mono">
+               <div className="font-bold flex items-center justify-center gap-1.5 text-cyan-200">
+                 ⚡ Base Denim Confirmed {confirmationDurationMs ? `(~${confirmationDurationMs}ms)` : ''}
+               </div>
+               <div className="text-[10px] text-gray-400 truncate mt-0.5">
+                 {txHash || callId}
+               </div>
              </div>
           )}
         </div>

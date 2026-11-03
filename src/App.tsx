@@ -1,5 +1,6 @@
 import { OnchainProvider } from './lib/onchain/OnchainProvider';
 import { ConnectWallet } from './components/onchain/ConnectWallet';
+import { DenimBlockMonitor } from './components/onchain/DenimBlockMonitor';
 import { useGameStore } from './store/gameStore';
 import { TitleScreen } from './components/screens/TitleScreen';
 import { SanctumScreen } from './components/screens/SanctumScreen';
@@ -31,11 +32,12 @@ function GameCoordinator() {
 
       {/* Global UI */}
       <div className="absolute top-4 right-4 z-50 flex flex-nowrap items-center gap-3">
+        <DenimBlockMonitor />
         {isConnected && (
             <button
               onClick={handleSayGM}
               disabled={isPending}
-              className="px-3 py-2 rounded-lg bg-[#E8A020]/20 hover:bg-[#E8A020]/30 border border-[#E8A020]/40 text-[#E8A020] transition-colors flex items-center gap-2 font-['Cinzel'] text-xs font-bold whitespace-nowrap"
+              className="px-3 py-2 rounded-lg bg-[#E8A020]/20 hover:bg-[#E8A020]/30 border border-[#E8A020]/40 text-[#E8A020] transition-colors flex items-center gap-2 font-['Cinzel'] text-xs font-bold whitespace-nowrap shadow-[0_0_15px_rgba(232,160,32,0.15)]"
             >
               <Sun className={`w-4 h-4 ${isPending ? 'animate-spin' : ''}`} />
               {isPending ? 'Sending...' : 'Say GM'}
