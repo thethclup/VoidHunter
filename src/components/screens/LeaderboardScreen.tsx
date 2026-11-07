@@ -26,7 +26,7 @@ export function LeaderboardScreen() {
             </div>
             <div>
               <h1 className="text-xl font-bold tracking-tighter glow-text">LEGENDARY HUNTERS</h1>
-              <p className="text-[10px] uppercase tracking-widest text-cyan-400">Base Denim // 200ms Canonical Global Rank</p>
+              <p className="text-[10px] uppercase tracking-widest text-cyan-400">Base Mainnet Denim // 200ms Canonical Global Rank</p>
             </div>
           </div>
         </header>

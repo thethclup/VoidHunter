@@ -22,6 +22,8 @@ async function startServer() {
     network: {
       upgrade: "Denim",
       cadence: "200ms",
+      mainnetStatus: "LIVE",
+      mainnetActivatedAt: "2026-11-05T18:00:00Z",
       flashblocksMigrated: true,
       pendingTagDeprecated: true,
       supportedChains: [8453, 84532, 84538453]
